@@ -1,0 +1,66 @@
+model,category,brand,open_mentions,open_runs,open_rate
+deepseek-v4-flash,e-wallet,GoPay,6,6,1.0
+deepseek-v4-flash,e-wallet,OVO,5,6,0.83
+deepseek-v4-flash,e-wallet,DANA,4,6,0.67
+deepseek-v4-flash,e-wallet,ShopeePay,4,6,0.67
+deepseek-v4-flash,e-wallet,LinkAja,4,6,0.67
+deepseek-v4-flash,bank-digital,Bank Jago,5,6,0.83
+deepseek-v4-flash,bank-digital,blu by BCA,5,6,0.83
+deepseek-v4-flash,bank-digital,Jenius,2,6,0.33
+deepseek-v4-flash,bank-digital,SeaBank,6,6,1.0
+deepseek-v4-flash,bank-digital,Allo Bank,0,6,0.0
+qwen-3.7-max,bank-digital,Bank Jago,1,1,1.0
+qwen-3.7-max,bank-digital,blu by BCA,0,1,0.0
+qwen-3.7-max,bank-digital,Jenius,0,1,0.0
+qwen-3.7-max,bank-digital,SeaBank,1,1,1.0
+qwen-3.7-max,bank-digital,Allo Bank,1,1,1.0
+deepseek-v4-flash,e-commerce,Tokopedia,6,6,1.0
+deepseek-v4-flash,e-commerce,Shopee,6,6,1.0
+deepseek-v4-flash,e-commerce,Blibli,2,6,0.33
+deepseek-v4-flash,e-commerce,Lazada,4,6,0.67
+deepseek-v4-flash,e-commerce,Bukalapak,0,6,0.0
+qwen-3.7-max,e-commerce,Tokopedia,1,1,1.0
+qwen-3.7-max,e-commerce,Shopee,1,1,1.0
+qwen-3.7-max,e-commerce,Blibli,0,1,0.0
+qwen-3.7-max,e-commerce,Lazada,0,1,0.0
+qwen-3.7-max,e-commerce,Bukalapak,0,1,0.0
+deepseek-v4-flash,ekspedisi,JNE,5,6,0.83
+deepseek-v4-flash,ekspedisi,J&T Express,6,6,1.0
+deepseek-v4-flash,ekspedisi,SiCepat,6,6,1.0
+deepseek-v4-flash,ekspedisi,AnterAja,5,6,0.83
+deepseek-v4-flash,ekspedisi,Ninja Xpress,1,6,0.17
+deepseek-v4-flash,hosting,Niagahoster,5,6,0.83
+deepseek-v4-flash,hosting,IDCloudHost,1,6,0.17
+deepseek-v4-flash,hosting,Rumahweb,0,6,0.0
+deepseek-v4-flash,hosting,Dewaweb,5,6,0.83
+deepseek-v4-flash,hosting,DomaiNesia,4,6,0.67
+qwen-3.7-max,hosting,Niagahoster,1,1,1.0
+qwen-3.7-max,hosting,IDCloudHost,1,1,1.0
+qwen-3.7-max,hosting,Rumahweb,0,1,0.0
+qwen-3.7-max,hosting,Dewaweb,0,1,0.0
+qwen-3.7-max,hosting,DomaiNesia,1,1,1.0
+deepseek-v4-flash,akuntansi-umkm,Mekari Jurnal,4,6,0.67
+deepseek-v4-flash,akuntansi-umkm,Accurate,3,6,0.5
+deepseek-v4-flash,akuntansi-umkm,Zahir,0,6,0.0
+deepseek-v4-flash,akuntansi-umkm,Kledo,0,6,0.0
+deepseek-v4-flash,akuntansi-umkm,BukuWarung,3,6,0.5
+deepseek-v4-flash,pos-kasir,Moka,6,6,1.0
+deepseek-v4-flash,pos-kasir,Majoo,0,6,0.0
+deepseek-v4-flash,pos-kasir,Pawoon,4,6,0.67
+deepseek-v4-flash,pos-kasir,Olsera,0,6,0.0
+deepseek-v4-flash,pos-kasir,Qasir,0,6,0.0
+deepseek-v4-flash,travel-ota,Traveloka,6,6,1.0
+deepseek-v4-flash,travel-ota,tiket.com,5,6,0.83
+deepseek-v4-flash,travel-ota,Agoda,5,6,0.83
+deepseek-v4-flash,travel-ota,Booking.com,6,6,1.0
+deepseek-v4-flash,travel-ota,Trip.com,0,6,0.0
+deepseek-v4-flash,skincare-lokal,Somethinc,6,6,1.0
+deepseek-v4-flash,skincare-lokal,Avoskin,3,6,0.5
+deepseek-v4-flash,skincare-lokal,Wardah,5,6,0.83
+deepseek-v4-flash,skincare-lokal,Scarlett,0,6,0.0
+deepseek-v4-flash,skincare-lokal,Azarine,2,6,0.33
+deepseek-v4-flash,kursus-coding,Dicoding,3,6,0.5
+deepseek-v4-flash,kursus-coding,Hacktiv8,4,6,0.67
+deepseek-v4-flash,kursus-coding,RevoU,0,6,0.0
+deepseek-v4-flash,kursus-coding,Purwadhika,2,6,0.33
+deepseek-v4-flash,kursus-coding,MySkill,0,6,0.0

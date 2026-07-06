@@ -1,0 +1,154 @@
+{
+  "categories": [
+    {
+      "name": "e-wallet",
+      "brands": [
+        { "name": "GoPay" },
+        { "name": "OVO" },
+        { "name": "DANA", "cs": true },
+        { "name": "ShopeePay" },
+        { "name": "LinkAja" }
+      ],
+      "queries": [
+        { "text": "E-wallet apa yang paling bagus untuk transaksi sehari-hari di Indonesia?", "type": "open" },
+        { "text": "Rekomendasi dompet digital yang aman dan banyak promo di Indonesia dong", "type": "open" },
+        { "text": "GoPay, OVO, atau DANA — mana yang paling worth it dipakai?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "bank-digital",
+      "brands": [
+        { "name": "Bank Jago", "aliases": ["Jago"], "cs": true },
+        { "name": "blu by BCA", "aliases": ["blu"] },
+        { "name": "Jenius" },
+        { "name": "SeaBank" },
+        { "name": "Allo Bank", "aliases": ["Allo"] }
+      ],
+      "queries": [
+        { "text": "Bank digital terbaik di Indonesia untuk menabung apa ya?", "type": "open" },
+        { "text": "Rekomendasi bank digital dengan bunga tinggi dan gratis biaya admin di Indonesia", "type": "open" },
+        { "text": "Bank Jago vs Jenius vs SeaBank, mana yang lebih baik?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "e-commerce",
+      "brands": [
+        { "name": "Tokopedia" },
+        { "name": "Shopee" },
+        { "name": "Blibli" },
+        { "name": "Lazada" },
+        { "name": "Bukalapak" }
+      ],
+      "queries": [
+        { "text": "Belanja online di Indonesia paling enak di platform mana?", "type": "open" },
+        { "text": "Marketplace mana yang paling aman dan murah untuk belanja elektronik di Indonesia?", "type": "open" },
+        { "text": "Tokopedia atau Shopee, mana yang lebih bagus buat pembeli?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "ekspedisi",
+      "brands": [
+        { "name": "JNE" },
+        { "name": "J&T Express", "aliases": ["J&T", "JNT"] },
+        { "name": "SiCepat" },
+        { "name": "AnterAja", "aliases": ["Anteraja"] },
+        { "name": "Ninja Xpress", "aliases": ["Ninja Express"] }
+      ],
+      "queries": [
+        { "text": "Ekspedisi apa yang paling cepat dan murah untuk kirim paket online shop di Indonesia?", "type": "open" },
+        { "text": "Jasa pengiriman paket paling recommended untuk seller Shopee/Tokopedia apa?", "type": "open" },
+        { "text": "JNE vs J&T vs SiCepat, mana yang paling oke?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "hosting",
+      "brands": [
+        { "name": "Niagahoster" },
+        { "name": "IDCloudHost" },
+        { "name": "Rumahweb" },
+        { "name": "Dewaweb" },
+        { "name": "DomaiNesia" }
+      ],
+      "queries": [
+        { "text": "Hosting murah dan bagus untuk website bisnis kecil di Indonesia apa ya?", "type": "open" },
+        { "text": "Rekomendasi web hosting Indonesia yang cepat dan support-nya bagus", "type": "open" },
+        { "text": "Niagahoster atau Dewaweb, mana yang lebih baik untuk pemula?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "akuntansi-umkm",
+      "brands": [
+        { "name": "Mekari Jurnal", "aliases": ["Jurnal by Mekari"] },
+        { "name": "Accurate", "cs": true },
+        { "name": "Zahir" },
+        { "name": "Kledo" },
+        { "name": "BukuWarung" }
+      ],
+      "queries": [
+        { "text": "Software akuntansi untuk UMKM Indonesia yang bagus apa?", "type": "open" },
+        { "text": "Aplikasi pembukuan yang cocok untuk toko kecil di Indonesia, rekomendasinya dong", "type": "open" },
+        { "text": "Mekari Jurnal vs Accurate, lebih baik pakai yang mana?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "pos-kasir",
+      "brands": [
+        { "name": "Moka", "aliases": ["Moka POS"] },
+        { "name": "Majoo" },
+        { "name": "Pawoon" },
+        { "name": "Olsera" },
+        { "name": "Qasir" }
+      ],
+      "queries": [
+        { "text": "Aplikasi kasir (POS) terbaik untuk kafe atau warung di Indonesia apa?", "type": "open" },
+        { "text": "Rekomendasi sistem kasir untuk bisnis F&B kecil di Indonesia", "type": "open" },
+        { "text": "Moka vs Majoo vs Pawoon untuk kafe, pilih mana?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "travel-ota",
+      "brands": [
+        { "name": "Traveloka" },
+        { "name": "tiket.com" },
+        { "name": "Agoda" },
+        { "name": "Booking.com" },
+        { "name": "Trip.com" }
+      ],
+      "queries": [
+        { "text": "Beli tiket pesawat dan hotel paling murah di aplikasi apa di Indonesia?", "type": "open" },
+        { "text": "Rekomendasi aplikasi booking hotel yang terpercaya untuk liburan di Indonesia", "type": "open" },
+        { "text": "Traveloka atau tiket.com, mana yang lebih murah dan bagus?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "skincare-lokal",
+      "brands": [
+        { "name": "Somethinc" },
+        { "name": "Avoskin" },
+        { "name": "Wardah" },
+        { "name": "Scarlett", "aliases": ["Scarlett Whitening"] },
+        { "name": "Azarine" }
+      ],
+      "queries": [
+        { "text": "Skincare lokal Indonesia terbaik untuk kulit berminyak apa ya?", "type": "open" },
+        { "text": "Rekomendasi brand skincare lokal yang bagus dan terjangkau", "type": "open" },
+        { "text": "Somethinc vs Avoskin, bagusan mana untuk pemula?", "type": "seeded" }
+      ]
+    },
+    {
+      "name": "kursus-coding",
+      "brands": [
+        { "name": "Dicoding" },
+        { "name": "Hacktiv8" },
+        { "name": "RevoU" },
+        { "name": "Purwadhika" },
+        { "name": "MySkill" }
+      ],
+      "queries": [
+        { "text": "Belajar coding di Indonesia paling bagus lewat platform apa?", "type": "open" },
+        { "text": "Rekomendasi bootcamp atau kursus online programming di Indonesia yang worth it", "type": "open" },
+        { "text": "Dicoding vs Hacktiv8 vs RevoU, mana yang paling worth it?", "type": "seeded" }
+      ]
+    }
+  ]
+}

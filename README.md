@@ -4,13 +4,20 @@ Which brands do LLMs actually recommend? This pipeline asks consumer questions
 in Bahasa Indonesia across multiple models (via any OpenAI-compatible gateway)
 and measures which Indonesian brands get mentioned — and which are invisible.
 
-**Headline findings from the first full run (deepseek-v4-flash, 90 calls):**
+**Findings from the first full run** (DeepSeek V4 Flash, 4 July 2026, 90 calls; each category
+has 6 answers to its open questions, so every rate below is a count out of 6):
 
-- **Bukalapak — a former unicorn — was mentioned in 0% of e-commerce answers.**
-  Tokopedia and Shopee: 100%.
-- SeaBank (100%) crushed Jenius (33%) in digital banking — the category pioneer
-  is losing the AI-recommendation battle.
-- 12 of 50 tracked brands (24%) were never mentioned at all.
+- **Tokopedia and Shopee were named in all 6 e-commerce answers, and Bukalapak in none. That zero
+  is the right answer, not a visibility gap.** Bukalapak stopped selling physical goods on its
+  marketplace in early 2025: final orders were due by 9 February 2025, and it now sells phone credit,
+  data packages and bill payments
+  ([Marketech APAC, 10 January 2025](https://marketech-apac.com/indonesias-bukalapak-to-phase-out-physical-goods-shift-focus-to-virtual-products-digital-services/);
+  [IDN Financials](https://www.idnfinancials.com/news/51957/closing-down-marketplace-bukalapak-to-shift-to-digital-services)).
+  The questions ask where to shop online and where to buy electronics. An earlier version of this
+  README called Bukalapak's zero a gap; it was not.
+- SeaBank was named in 6 of 6 digital-banking answers; Jenius, the category's pioneer, in 2 of 6.
+- 12 of the 50 tracked brands were never named. Bukalapak is one, for the reason above; I have not
+  checked the other 11 against company news, so a zero here is a question, not a finding.
 
 Full per-category results in [`summary.csv`](summary.csv); raw per-call data in
 [`results.jsonl`](results.jsonl) (93 calls, appended as JSONL so runs are
@@ -57,3 +64,5 @@ Environment knobs: `SCAN_BASE_URL`, `SCAN_MODELS` (comma-separated), `RUNS`
    not absolutes.
 3. String detection misses aliases the config doesn't know ("Jaksel" vs
    "Jakarta Selatan" taught us this) — extend `aliases` per brand as needed.
+4. A zero can be the right answer. Before calling a brand invisible, check that it still sells what
+   the question asks about: Bukalapak's zero above came from the company leaving the category.

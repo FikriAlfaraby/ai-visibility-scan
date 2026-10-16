@@ -1,28 +1,27 @@
 #!/usr/bin/env python3
-"""Scan visibilitas brand Indonesia di jawaban AI — via endpoint OpenAI-compatible.
+"""Scan how visible Indonesian brands are in AI answers, through any OpenAI-compatible endpoint.
 
-Satu endpoint, banyak model. Cocok untuk OpenRouter (ratusan model lintas
-vendor dengan satu API key), OpenAI langsung, Groq/Together, atau gateway
-lokal seperti Ollama (http://localhost:11434/v1).
+One endpoint, many models. Works with OpenRouter (hundreds of models across vendors with one API
+key), OpenAI directly, Groq/Together, or a local gateway such as Ollama (http://localhost:11434/v1).
 
-Pakai:
+Usage:
     export OPENROUTER_API_KEY=sk-or-...
-    python3 scan.py                     # scan dengan model default (lihat bawah)
+    python3 scan.py                     # scan with the default models (see below)
     SCAN_MODELS="openai/gpt-4o-mini,google/gemini-2.5-flash" python3 scan.py
-    python3 scan.py --selftest          # cek fungsi deteksi brand, tanpa network
+    python3 scan.py --selftest          # check brand detection, no network
 
 Env:
-    SCAN_API_KEY | OPENROUTER_API_KEY | OPENAI_API_KEY   (urutan prioritas)
-    SCAN_BASE_URL   default: OpenRouter jika pakai OPENROUTER_API_KEY,
-                    selain itu default SDK (api.openai.com)
-    SCAN_MODELS     daftar model dipisah koma (slug persis milik gateway-mu)
-    RUNS            pengulangan per query, default 3 (jawaban AI non-deterministik)
-    DELAY_S         jeda antar panggilan dalam detik, default 2.0 (naikkan kalau
-                    gateway-mu ketat rate limit-nya, mis. DELAY_S=4)
+    SCAN_API_KEY | OPENROUTER_API_KEY | OPENAI_API_KEY   (in this order of priority)
+    SCAN_BASE_URL   default: OpenRouter when OPENROUTER_API_KEY is used,
+                    otherwise the SDK default (api.openai.com)
+    SCAN_MODELS     comma-separated model slugs, exactly as your gateway names them
+    RUNS            repeats per query, default 3 (AI answers are not deterministic)
+    DELAY_S         pause between calls in seconds, default 2.0 (raise it for a gateway
+                    with strict rate limits, e.g. DELAY_S=4)
 
 Output:
-    results.jsonl  — satu baris per panggilan API (mentah; scan bisa di-resume)
-    summary.csv    — mention rate per model x kategori x brand (query open saja)
+    results.jsonl  — one line per API call (raw; a scan can be resumed)
+    summary.csv    — mention rate per model x category x brand (open queries only)
 """
 import csv
 import json
@@ -39,10 +38,10 @@ RESULTS = ROOT / "results.jsonl"
 SUMMARY = ROOT / "summary.csv"
 RUNS = int(os.environ.get("RUNS", "3"))
 MAX_TOKENS = 700
-DELAY_S = float(os.environ.get("DELAY_S", "2.0"))  # jeda antar panggilan, detik
+DELAY_S = float(os.environ.get("DELAY_S", "2.0"))  # pause between calls, seconds
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1"
-# ponytail: cek slug terbaru di openrouter.ai/models sebelum scan serius
+# check the current slugs at openrouter.ai/models before a serious scan
 DEFAULT_OPENROUTER_MODELS = [
     "openai/gpt-4o-mini",
     "anthropic/claude-sonnet-4.5",
@@ -51,10 +50,10 @@ DEFAULT_OPENROUTER_MODELS = [
 
 
 def detect(text: str, brands: list[dict]) -> list[str]:
-    """Daftar nama brand yang disebut, terurut posisi kemunculan pertama.
+    """The brands named in the text, in order of first appearance.
 
-    Word-boundary supaya "DANAmu" tidak match "DANA"; brand ber-flag "cs"
-    dicocokkan case-sensitive (DANA/Jago/Accurate = kata umum bhs Indonesia).
+    Word boundaries, so "DANAmu" does not match "DANA"; brands flagged "cs" match case-sensitively
+    (DANA, Jago and Accurate are also common Indonesian words).
     """
     found = []
     for b in brands:
@@ -96,15 +95,15 @@ def build_client_and_models():
 
     from openai import OpenAI
 
-    # max_retries=0: retry 429 kita tangani sendiri supaya bisa menghormati
-    # retry_after dari gateway, bukan retry cepat bawaan SDK
+    # max_retries=0: 429s are retried here, honouring the gateway's retry_after,
+    # instead of the SDK's own fast retries
     client = OpenAI(api_key=key, base_url=base_url, max_retries=0)
     return client, models
 
 
 def ask(client, model: str, q: str) -> str:
-    # tanpa system prompt & tanpa temperature — kita mau jawaban se-default
-    # mungkin, mendekati apa yang dilihat konsumen
+    # no system prompt and no temperature: the answer should be as close to the default
+    # as possible, near what a consumer sees
     r = client.chat.completions.create(
         model=model,
         max_tokens=MAX_TOKENS,
@@ -114,7 +113,7 @@ def ask(client, model: str, q: str) -> str:
 
 
 def ask_with_retry(client, model: str, q: str, attempts: int = 6) -> str:
-    """Retry saat kena rate limit (429), menghormati retry_after dari gateway."""
+    """Retry on a rate limit (429), honouring the gateway's retry_after."""
     for i in range(attempts):
         try:
             return ask(client, model, q)
@@ -125,15 +124,15 @@ def ask_with_retry(client, model: str, q: str, attempts: int = 6) -> str:
             m = re.search(r"(?:retry_after\D*|Retry in )(\d+)", msg, re.IGNORECASE)
             wait = (int(m.group(1)) + 1) if m else 5 * (i + 1)
             print(
-                f"    rate limit — tunggu {wait}s (percobaan {i + 1}/{attempts})",
+                f"    rate limit: waiting {wait}s (attempt {i + 1}/{attempts})",
                 file=sys.stderr,
             )
             time.sleep(wait)
-    raise RuntimeError(f"masih rate limit setelah {attempts} percobaan")
+    raise RuntimeError(f"still rate-limited after {attempts} attempts")
 
 
 def load_done() -> set:
-    """Kunci (model, query, run) yang sudah ada di results.jsonl — untuk resume."""
+    """The (model, query, run) keys already in results.jsonl, so a scan can resume."""
     done = set()
     if RESULTS.exists():
         for line in RESULTS.read_text().splitlines():
@@ -147,7 +146,7 @@ def scan(config: dict) -> None:
     client, models = build_client_and_models()
     done = load_done()
     total = sum(len(c["queries"]) for c in config["categories"]) * RUNS * len(models)
-    print(f"Model: {', '.join(models)} | total panggilan: {total}\n")
+    print(f"Models: {', '.join(models)} | calls: {total}\n")
 
     n = 0
     with RESULTS.open("a") as out:
@@ -161,7 +160,7 @@ def scan(config: dict) -> None:
                         try:
                             text = ask_with_retry(client, model, q["text"])
                         except Exception as e:
-                            print(f"[{n}/{total}] {model} GAGAL: {e}", file=sys.stderr)
+                            print(f"[{n}/{total}] {model} FAILED: {e}", file=sys.stderr)
                             time.sleep(DELAY_S)
                             continue
                         rec = {
@@ -178,7 +177,7 @@ def scan(config: dict) -> None:
                         out.flush()
                         print(
                             f"[{n}/{total}] {model} {cat['name']} run{run}: "
-                            f"{', '.join(rec['mentions']) or '(tidak ada brand disebut)'}"
+                            f"{', '.join(rec['mentions']) or '(no brand named)'}"
                         )
                         time.sleep(DELAY_S)
 
@@ -186,9 +185,9 @@ def scan(config: dict) -> None:
 
 
 def summarize(config: dict) -> None:
-    """Mention rate per model x kategori x brand — query open saja."""
-    runs = defaultdict(int)      # (model, category) -> jumlah run open
-    mentions = defaultdict(int)  # (model, category, brand) -> jumlah disebut
+    """Mention rate per model x category x brand, open queries only."""
+    runs = defaultdict(int)      # (model, category) -> open runs
+    mentions = defaultdict(int)  # (model, category, brand) -> times named
     for line in RESULTS.read_text().splitlines():
         if not line.strip():
             continue
@@ -217,7 +216,7 @@ def summarize(config: dict) -> None:
                     }
                 )
     if not rows:
-        print("Belum ada hasil query open di results.jsonl.")
+        print("No open-query results in results.jsonl yet.")
         return
 
     with SUMMARY.open("w", newline="") as f:
@@ -225,7 +224,7 @@ def summarize(config: dict) -> None:
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"\n=== RINGKASAN (query open, tersimpan di {SUMMARY.name}) ===")
+    print(f"\n=== SUMMARY (open queries, saved to {SUMMARY.name}) ===")
     current = None
     for row in rows:
         key = (row["model"], row["category"])
@@ -243,17 +242,17 @@ def selftest() -> None:
         {"name": "Bank Jago", "aliases": ["Jago"], "cs": True},
         {"name": "J&T Express", "aliases": ["J&T"]},
     ]
-    # urutan mengikuti posisi kemunculan pertama
+    # order follows first appearance
     assert detect("Saya sarankan DANA lalu GoPay.", brands) == ["DANA", "GoPay"]
-    # word boundary: "DANAmu" bukan DANA; "dana" (kata umum) bukan DANA (cs)
+    # word boundary: "DANAmu" is not DANA; "dana" (money, a common word) is not DANA (cs)
     assert detect("siapkan dana untuk DANAmu", brands) == []
-    # alias + case-sensitive: "jago masak" bukan Bank Jago, "Jago" iya
+    # alias and case: "jago masak" (good at cooking) is not Bank Jago, "Jago" is
     assert detect("Dia jago masak, tapi nabungnya di Jago.", brands) == ["Bank Jago"]
-    # karakter spesial di nama brand aman di-regex
+    # special characters in a brand name are safe in the regex
     assert detect("Kirim pakai J&T saja.", brands) == ["J&T Express"]
-    # tidak ada mention
+    # no mention
     assert detect("Tidak ada rekomendasi.", brands) == []
-    print("selftest OK — 5 assertion lolos")
+    print("selftest OK: 5 assertions passed")
 
 
 if __name__ == "__main__":
